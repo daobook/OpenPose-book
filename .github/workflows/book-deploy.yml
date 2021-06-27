@@ -39,7 +39,7 @@ jobs:
       run: |
         pip install -r etc/requirements.txt
         conda install ipykernel
-        python -m ipykernel install --user --name ai --display-name "ai"
+        python -m ipykernel install --user --name torch --display-name "PyTorch"
     - name: Install theme
       run: |
         git clone https://github.com/xinetzone/xin-css.git docs/_static/xin-css

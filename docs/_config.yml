@@ -24,8 +24,8 @@ only_build_toc_files: false
 execute:
   execute_notebooks: cache # 是否在构建时执行笔记本。必须是 ("auto", "force", "cache", "off") 之一
   cache: "" # jupyter 的缓存路径，该路径将用于存储执行工件。 `_build/.jupyter_cache/`
-  exclude_patterns: [] # 在执行中要“跳过”的模式列表（例如，需要很长时间的笔记本）
-  timeout: 30 # 每个笔记本单元允许运行的最长时间（以秒为单位）。
+  exclude_patterns: ["gesture-recognition.ipynb"] # 在执行中要“跳过”的模式列表（例如，需要很长时间的笔记本）
+  timeout: -1 # 每个笔记本单元允许运行的最长时间（以秒为单位）。
   # 如果为 `true`，则将创建一个临时目录并将其用作命令工作目录（cwd），否则，笔记本的父目录将是 cwd。
   run_in_temp: false
   allow_errors: true # 如果为 `False`，则当代码单元引发错误时，执行将停止，否则所有单元将始终运行。
@@ -77,7 +77,7 @@ html:
           data-tooltip="领英联系我: xinet" data-position="top" data-delay="50">
           <i class="fab fa-linkedin"></i>
       </a>
-      <div><a href="https://github.com/xinetzone/mini-book">Jupyter Book</a> 版权所有</div>
+      <div><a href="https://github.com/xinetzone/OpenPose-book">Jupyter Book</a> 版权所有</div>
     </div> 
   extra_footer: "" # Will be displayed underneath the footer.
   google_analytics_id: "" # A GA id that can be used to track book views.
@@ -86,7 +86,7 @@ html:
   comments:
     hypothesis: true
     utterances:
-      repo: "xinetzone/mini-book"
+      repo: "xinetzone/OpenPose-book"
 
 #######################################################################################
 # LaTeX-specific settings
@@ -106,7 +106,7 @@ launch_buttons:
   colab_url: "" # The URL of Google Colab (https://colab.research.google.com)
 
 repository:
-  url: https://github.com/xinetzone/mini-book # The URL to your book's repository
+  url: https://github.com/xinetzone/OpenPose-book # The URL to your book's repository
   path_to_book: "docs" # A path to your book's folder, relative to the repository root.
   branch: main # Which branch of the repository should be used when creating links
 
@@ -124,8 +124,8 @@ sphinx:
       wiki:
         - "https://xinetzone.github.io/wiki/"
         - null
-      # mini-book:
-      #   - "https://xinetzone.github.io/mini-book/"
+      # OpenPose-book:
+      #   - "https://xinetzone.github.io/OpenPose-book/"
       #   - null
       # plotly-book:
       #   - "https://xinetzone.github.io/plotly-book/"
@@ -161,4 +161,5 @@ sphinx:
     - sphinx_click.ext
     - sphinx_inline_tabs
     - sphinx.ext.intersphinx
+    # - sphinxext.rediraffe
 

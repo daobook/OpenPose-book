@@ -1,12 +1,7 @@
 # 笔记本
 
 ```{div} w3-pale-green w3-card w3-padding w3-round-xlarge w3-margin-top
-本笔记本可以直接运行代码，且持续化集成和部署到 GitHub Pages。
-
-本项目的使用案例有：
-
-- [AI 世界|记录一些 AI 技术](https://xinetzone.github.io/ai-world/)
-- [Books with Jupyter（中文版）](https://xinetzone.github.io/jupyter-book-zh/intro.html)
+[OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) 是首个实时多人系统，在单个图像上联合检测人体、手、面部和脚部关键点（总共 135 个关键点）。
 ```
 
 ````{admonition} 本站目录
@@ -15,3 +10,5 @@
 ```{tableofcontents}
 ```
 ````
+
+首个联合检测人体、手、面、足关键点的实时多人系统
