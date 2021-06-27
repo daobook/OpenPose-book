@@ -1,0 +1,1607 @@
+
+<!DOCTYPE html>
+
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenCV &amp; Mediapipe 的手势识别 &#8212; 品味人生</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/w3css/4/w3mobile.css" />
+    <link rel="stylesheet" type="text/css" href="_static/w3css/4/w3pro.css" />
+    <link rel="stylesheet" type="text/css" href="_static/w3css/4/w3.css" />
+    <link rel="stylesheet" type="text/css" href="_static/xin-css/main.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/tabs.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "xinetzone/OpenPose-book");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "💬 comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="shortcut icon" href="_static/page-logo.jfif"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="基础" href="start.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      <img src="_static/logo.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">品味人生</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  教程
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="start.html">
+   基础
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   OpenCV &amp; Mediapipe 的手势识别
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <div class="w3-padding w3-card-4 w3-pale-green">
+  <a href="https://github.com/xinetzone" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub"
+      data-position="top" data-delay="50">
+      <i class="fab fa-github"></i>
+  </a>
+  <a href="mailto:q735613050@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top"
+      data-delay="50">
+      <i class="fas fa-envelope-open"></i>
+  </a>
+  <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=735613050" class="tooltipped"
+      target="_blank" data-tooltip="QQ联系我: 735613050" data-position="top" data-delay="50">
+      <i class="fab fa-qq"></i>
+  </a>
+  <a href="https://www.zhihu.com/people/liu-xin-wei-55" class="tooltipped" target="_blank"
+      data-tooltip="关注我的知乎: liu-xin-wei-55" data-position="top" data-delay="50">
+      <i class="fab fa-zhihu1">知</i>
+  </a>
+  <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/xinet" class="tooltipped"
+      data-tooltip="领英联系我: xinet" data-position="top" data-delay="50">
+      <i class="fab fa-linkedin"></i>
+  </a>
+  <div><a href="https://github.com/xinetzone/OpenPose-book">Jupyter Book</a> 版权所有</div>
+</div> 
+
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/gesture-recognition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/xinetzone/OpenPose-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/xinetzone/OpenPose-book/issues/new?title=Issue%20on%20page%20%2Fgesture-recognition.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/xinetzone/OpenPose-book/main?urlpath=tree/docs/gesture-recognition.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   载入模型
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   预测
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   获取点
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   图像处理
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     数据集
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     处理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dataframe">
+     创建 dataframe
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   预处理
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#none">
+     修复 none 值
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     标准化
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     翻转手势
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     最终的 dataframe
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   建模
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     准备数据
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     选择算法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     训练
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     验证
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     测试
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id17">
+   导出模型
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="opencv-mediapipe">
+<h1>OpenCV &amp; Mediapipe 的手势识别<a class="headerlink" href="#opencv-mediapipe" title="永久链接至标题">¶</a></h1>
+<p>参考：<a class="reference external" href="https://github.com/dirkzon/gesture-recognition">dirkzon/gesture-recognition: Real time gesture recognition using OpenCV &amp; Mediapipe</a></p>
+<p>这个笔记本的目的是尝试创建一个可以从图像中识别手势的机器学习模型。为了识别手的姿态，使用 OpenCV 的 OpenPose 模型。这个模型将返回一些在手上预定（predetermined）的点。然后我们可以训练一个模型将这些点分类成一些手势意义。该方法分离了识别手的关注点，并对点进行分类。</p>
+<p><img alt="Knipsel.PNG" src="_images/Knipsel.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>下面我们可以看到一个手语手势的例子。这个手势的标签是“3”。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;../test_images/3.jpg&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gesture-recognition_3_0.png" src="_images/gesture-recognition_3_0.png" />
+</div>
+</div>
+<div class="section" id="id1">
+<h2>载入模型<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>使用 <a class="reference external" href="https://opencv.org/">OpenCV</a> 处理所有图像。加上预先训练的 <a class="reference external" href="https://github.com/CMU-Perceptual-Computing-Lab/openpose">OpenPose</a> 模型，便可以识别手势。要使用这个模型，我们需要两个东西：模型本身和一个 <code class="docutils literal notranslate"><span class="pre">'.prototxt'</span></code> 文件。这两个文件都应该放在 <code class="docutils literal notranslate"><span class="pre">../openpose</span></code> 目录中。'<code class="docutils literal notranslate"><span class="pre">pose_deploy.prototxt</span></code>' 已经放在在这个目录里，但是模型没有，需要去<a class="reference external" href="https://www.kaggle.com/changethetuneman/openpose-model?select=pose_iter_102000.caffemodel">下载</a>。下载模型后，可以在 OpenCV 中加载这两个文件。使用 OpenCV 而不是 Mediapipe 来处理手的原因是 <code class="docutils literal notranslate"><span class="pre">openpose</span></code> 模型更适合低分辨率的图像，也更灵活。使用 OpenCV 的一个缺点是它比 <code class="docutils literal notranslate"><span class="pre">medipipe</span></code> 模型慢得多。但这并不重要，因为我们只需要处理图像一次。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">protoFile</span> <span class="o">=</span> <span class="s2">&quot;../openpose/pose_deploy.prototxt&quot;</span>
+<span class="n">weightsFile</span> <span class="o">=</span> <span class="s2">&quot;../openpose/pose_iter_102000.caffemodel&quot;</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">readNetFromCaffe</span><span class="p">(</span><span class="n">protoFile</span><span class="p">,</span> <span class="n">weightsFile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>预测<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>OpenPose 模型通过识别手上的特定点来发挥作用。模型的输入是一个 blob，一个 blob 表示图像中像素的连接区域。可以将这个 blob 传递给 <code class="docutils literal notranslate"><span class="pre">OpenPose</span></code> 模型。得到了一个概率映射的列表。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frameCopy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="n">frameWidth</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">frameHeight</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">frameWidth</span><span class="o">/</span><span class="n">frameHeight</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># 为网络输入图像尺寸</span>
+<span class="n">inHeight</span> <span class="o">=</span> <span class="mi">368</span>
+<span class="n">inWidth</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="n">aspect_ratio</span><span class="o">*</span><span class="n">inHeight</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span><span class="o">//</span><span class="mi">8</span><span class="p">)</span>
+<span class="c1"># 转换图片为 blob</span>
+<span class="n">inpBlob</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">blobFromImage</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="p">(</span><span class="n">inWidth</span><span class="p">,</span> <span class="n">inHeight</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">swapRB</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">net</span><span class="o">.</span><span class="n">setInput</span><span class="p">(</span><span class="n">inpBlob</span><span class="p">)</span>
+
+<span class="c1"># 从 openpose 模型获得输出</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>下面的图片是这些概率图的例子。有亮像素的区域是模型预测的手上的某个点。手和手指上的这些点是由 <code class="docutils literal notranslate"><span class="pre">OpenPose</span></code> 模型定义的。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">]:</span>
+    <span class="n">probMap</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+    <span class="n">probMap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">probMap</span><span class="p">,</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">probMap</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Probability map for point #</span><span class="si">{i}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gesture-recognition_9_0.png" src="_images/gesture-recognition_9_0.png" />
+<img alt="_images/gesture-recognition_9_1.png" src="_images/gesture-recognition_9_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>获取点<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>模型中，总共返回 21 个概率图。现在可以遍历这些映射来提取这些点。能得到的点数是 21。手的底部有一个点，每根手指有 4 个点。这些点应该总是在手掌的相同位置。但是，如果概率图中的区域低于阈值，它将不会被包括在内，因为它很可能不是非常准确。总共有 42 个不同的值，因为每个点都有一个  <code class="docutils literal notranslate"><span class="pre">x</span></code> 和 <code class="docutils literal notranslate"><span class="pre">y</span></code> 值。这些值将用于训练出手势识别模型。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">21</span><span class="p">):</span>
+    <span class="c1"># get confidence map of hand</span>
+    <span class="n">probMap</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">probMap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">probMap</span><span class="p">,</span> <span class="p">(</span><span class="n">frameWidth</span><span class="p">,</span> <span class="n">frameHeight</span><span class="p">))</span>
+
+    <span class="c1"># Find maxima of the confidence map</span>
+    <span class="n">minVal</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minMaxLoc</span><span class="p">(</span><span class="n">probMap</span><span class="p">)</span>
+    
+    <span class="c1"># draw point if probabilty is greater than theshold</span>
+    <span class="k">if</span> <span class="n">prob</span> <span class="o">&gt;</span> <span class="mf">0.1</span> <span class="p">:</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">frameCopy</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">thickness</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">lineType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">FILLED</span><span class="p">)</span>
+        
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frameCopy</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gesture-recognition_11_0.png" src="_images/gesture-recognition_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>图像处理<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id5">
+<h3>数据集<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>现在我们知道了如何处理一个图像，我们可以从处理数据集开始。我们将使用的数据集是不包含在这个存储库中。数据集可以下载<a class="reference external" href="https://github.com/ardamavi/Sign-Language-Digits-Dataset">这里</a>。并且应该放在根目录中的一个名为 <code class="docutils literal notranslate"><span class="pre">draft</span></code> 的目录中。数据集的每个子文件夹都应该放在这个 <code class="docutils literal notranslate"><span class="pre">draft</span></code> 目录中。生成如下所示的根文件夹。<code class="docutils literal notranslate"><span class="pre">draft</span></code> 文件夹应该包含每个手势的子文件夹。这些文件夹里有对应的图片。</p>
+<p>. <br>
+├─ 🗋 docs/gesture-recognition.ipynb <br>
+├─ 🗁 draft/ <br>
+│  ├─🗀 0/ <br>
+│  ├─🗀 1/ <br>
+│  ├─🗀 2/ <br>
+│  ├─🗀 4/ <br>
+│  ├─🗀 5/ <br>
+│  ├─🗀 6/ <br>
+│  ├─🗀 7/ <br>
+│  ├─🗀 8/ <br>
+│  ├─🗀 9/ <br>
+├─🗀 test_images/ <br>
+├─...</p>
+<p>每个子文件夹的名称是手势的标签。每个手势大约有 200 张图片。这些图像是不同种类的手在不同的照明条件。所有图像都是 100 × 100 像素。</p>
+<blockquote>
+<div><p><em>Mavi, A., (2020), “A New Dataset and Proposed Convolutional Neural Network Architecture for Classification of American Sign Language Digits”, arXiv:2011.08927 [<a class="reference external" href="http://cs.CV">cs.CV</a>]</em></p>
+</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>处理<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>现在可以开始处理数据集了。可以看到三种方法。每个方法负责流程中的不同步骤。总之，我们只是循环遍历了 <code class="docutils literal notranslate"><span class="pre">draft</span></code> 目录中的每个子文件夹。然后逐个处理图像，并将这些点添加到一个数组中。</p>
+<p>下面的方法负责从 OpenPose 模型的输出中获取点。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_points</span><span class="p">(</span><span class="n">nPoints</span><span class="p">,</span> <span class="n">net_output</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+    <span class="n">output_points</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nPoints</span><span class="p">):</span>
+        <span class="c1"># get confidence map of hand</span>
+        <span class="n">probMap</span> <span class="o">=</span> <span class="n">net_output</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+        <span class="n">probMap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">probMap</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        
+        <span class="c1"># Find maxima of the confidence map</span>
+        <span class="n">minVal</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minMaxLoc</span><span class="p">(</span><span class="n">probMap</span><span class="p">)</span>
+        
+        <span class="c1"># append point if probabilty is greater than theshold</span>
+        <span class="k">if</span> <span class="n">prob</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">output_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">output_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">output_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">output_points</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>下面的方法负责将图像转换为一个 blob，并将这个 blob 传递给 OpenPose 模型。然后使用 <code class="docutils literal notranslate"><span class="pre">get_points</span></code> 方法获取点数。最后把这个手势加到 <code class="docutils literal notranslate"><span class="pre">arary</span></code> 中。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_image</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="c1"># input image dimensions for the network</span>
+    <span class="n">frameWidth</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">frameHeight</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">inHeight</span> <span class="o">=</span> <span class="mi">368</span>
+    <span class="n">inWidth</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="n">frameWidth</span><span class="o">/</span><span class="n">frameHeight</span><span class="o">*</span><span class="n">inHeight</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span><span class="o">//</span><span class="mi">8</span><span class="p">)</span>
+    
+    <span class="c1">#transform image into blob</span>
+    <span class="n">inpBlob</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">blobFromImage</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="p">(</span><span class="n">inWidth</span><span class="p">,</span> <span class="n">inHeight</span><span class="p">),</span>
+                      <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">swapRB</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1"># get output from openpose model</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">setInput</span><span class="p">(</span><span class="n">inpBlob</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+    
+    <span class="c1"># get points out of output</span>
+    <span class="k">return</span> <span class="n">get_points</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">frameWidth</span><span class="p">,</span><span class="n">frameHeight</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>为了处理数据集中的所有图像，我们可以遍历“数字手势”文件夹中的所有文件夹。然后循环遍历这些文件夹中的所有图像。使用'<code class="docutils literal notranslate"><span class="pre">process_image</span></code>'方法，逐个处理这些图像。将输出数组添加到 <code class="docutils literal notranslate"><span class="pre">array</span></code> 中。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">clear_output</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">folder</span> <span class="o">=</span> <span class="s1">&#39;../draft&#39;</span>
+
+<span class="n">array</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># iterate through all folders</span>
+<span class="k">for</span> <span class="n">subfolder</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span> <span class="n">subfolder</span>
+    <span class="n">subfolder_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">sub</span><span class="p">))</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># iterate through all subfolders</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">sub</span><span class="p">):</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">sub</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">file</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">process_image</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">points_gesture</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points_gesture</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;processing: &quot;</span> <span class="o">+</span> <span class="n">subfolder</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">((</span><span class="n">i</span><span class="o">/</span><span class="n">subfolder_size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+        <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>processing: 9
+100.0 %
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="dataframe">
+<h3>创建 dataframe<a class="headerlink" href="#dataframe" title="永久链接至标题">¶</a></h3>
+<p>在处理所有图像后，该阵列可以转换为一个 dataframe。前 42 列是点是位置。例如，列'0'和'1'表示第一个点，'3'和'4'表示第二个点，等等。最后一栏是手势的含义</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="c1"># 将最后一列重命名为“gesture”</span>
+<span class="n">processed</span> <span class="o">=</span> <span class="n">processed</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">processed</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span><span class="s2">&quot;gesture&quot;</span><span class="p">})</span>
+<span class="n">processed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>33</th>
+      <th>34</th>
+      <th>35</th>
+      <th>36</th>
+      <th>37</th>
+      <th>38</th>
+      <th>39</th>
+      <th>40</th>
+      <th>41</th>
+      <th>gesture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>66</td>
+      <td>70</td>
+      <td>55</td>
+      <td>64</td>
+      <td>44</td>
+      <td>53</td>
+      <td>39</td>
+      <td>44</td>
+      <td>35</td>
+      <td>38</td>
+      <td>...</td>
+      <td>46</td>
+      <td>62</td>
+      <td>39</td>
+      <td>53</td>
+      <td>39</td>
+      <td>48</td>
+      <td>42</td>
+      <td>48</td>
+      <td>46</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>52</td>
+      <td>76</td>
+      <td>57</td>
+      <td>61</td>
+      <td>59</td>
+      <td>46</td>
+      <td>62</td>
+      <td>31</td>
+      <td>59</td>
+      <td>23</td>
+      <td>...</td>
+      <td>28</td>
+      <td>42</td>
+      <td>47</td>
+      <td>44</td>
+      <td>26</td>
+      <td>51</td>
+      <td>22</td>
+      <td>55</td>
+      <td>29</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>55</td>
+      <td>83</td>
+      <td>51</td>
+      <td>72</td>
+      <td>46</td>
+      <td>58</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>...</td>
+      <td>25</td>
+      <td>57</td>
+      <td>53</td>
+      <td>59</td>
+      <td>40</td>
+      <td>59</td>
+      <td>31</td>
+      <td>60</td>
+      <td>31</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>51</td>
+      <td>88</td>
+      <td>46</td>
+      <td>75</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>...</td>
+      <td>29</td>
+      <td>45</td>
+      <td>44</td>
+      <td>50</td>
+      <td>24</td>
+      <td>57</td>
+      <td>21</td>
+      <td>64</td>
+      <td>29</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>31</td>
+      <td>81</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>70</td>
+      <td>33</td>
+      <td>73</td>
+      <td>29</td>
+      <td>...</td>
+      <td>35</td>
+      <td>40</td>
+      <td>37</td>
+      <td>55</td>
+      <td>29</td>
+      <td>63</td>
+      <td>33</td>
+      <td>68</td>
+      <td>39</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 43 columns</p>
+</div></div></div>
+</div>
+<p>最后，可以将数据帧保存为'.csv'文件。因此，可以在未来再次使用数据，而不必再次处理整个数据集。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../dataframes/gesture-points-raw.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../dataframes/gesture-points-raw.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>预处理<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>现在有了处理所有图像的点数据，可以开始清理和处理数据集。</p>
+<div class="section" id="none">
+<h3>修复 none 值<a class="headerlink" href="#none" title="永久链接至标题">¶</a></h3>
+<p>首先，我们可以看到数据帧中有很多 <code class="docutils literal notranslate"><span class="pre">none</span></code> 值。所以，首先必须修正它。如果查看丢失的单元格数量，则每一列都有一些丢失的值。但是不存在所有值都缺失的列。这意味着将能够使用这些不缺失的值来修复缺失的值。修复这些值的一种方法是获取每个列的平均值。因为每一列都代表同一点上的相同值，所以它们应该是均匀的。但不能取整列的平均值因为有不同的手势。需要得到手势相同的那一列的平均值。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed</span><span class="p">[</span><span class="n">processed</span><span class="o">.</span><span class="n">columns</span><span class="p">[::</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0          340
+2          218
+4           94
+6           84
+8          165
+10          77
+12          43
+14          64
+16         148
+18          99
+20          82
+22         182
+24         166
+26         177
+28         106
+30         186
+32         343
+34         195
+36          88
+38         109
+40         131
+gesture      0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>因此，首先需要通过手势对数据帧进行分组。然后遍历每组中的所有列。用这一列的平均值替换缺失的值。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># loop through each of the gesture groups</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">processed</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;gesture&quot;</span><span class="p">]):</span>
+    <span class="c1"># loop through each column</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">av</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">content</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">processed</span><span class="p">[</span><span class="s1">&#39;gesture&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span> 
+        <span class="n">processed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">form</span><span class="p">,</span> <span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">processed</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">form</span><span class="p">,</span> <span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">av</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>33</th>
+      <th>34</th>
+      <th>35</th>
+      <th>36</th>
+      <th>37</th>
+      <th>38</th>
+      <th>39</th>
+      <th>40</th>
+      <th>41</th>
+      <th>gesture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>66.0</td>
+      <td>70.0</td>
+      <td>55.0</td>
+      <td>64.0</td>
+      <td>44.0</td>
+      <td>53.0</td>
+      <td>39.0</td>
+      <td>44.0</td>
+      <td>35.0</td>
+      <td>38.0</td>
+      <td>...</td>
+      <td>46.0</td>
+      <td>62.0</td>
+      <td>39.0</td>
+      <td>53.0</td>
+      <td>39.0</td>
+      <td>48.0</td>
+      <td>42.0</td>
+      <td>48.0</td>
+      <td>46.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>52.0</td>
+      <td>76.0</td>
+      <td>57.0</td>
+      <td>61.0</td>
+      <td>59.0</td>
+      <td>46.0</td>
+      <td>62.0</td>
+      <td>31.0</td>
+      <td>59.0</td>
+      <td>23.0</td>
+      <td>...</td>
+      <td>28.0</td>
+      <td>42.0</td>
+      <td>47.0</td>
+      <td>44.0</td>
+      <td>26.0</td>
+      <td>51.0</td>
+      <td>22.0</td>
+      <td>55.0</td>
+      <td>29.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>55.0</td>
+      <td>83.0</td>
+      <td>51.0</td>
+      <td>72.0</td>
+      <td>46.0</td>
+      <td>58.0</td>
+      <td>62.0</td>
+      <td>43.0</td>
+      <td>66.0</td>
+      <td>35.0</td>
+      <td>...</td>
+      <td>25.0</td>
+      <td>57.0</td>
+      <td>53.0</td>
+      <td>59.0</td>
+      <td>40.0</td>
+      <td>59.0</td>
+      <td>31.0</td>
+      <td>60.0</td>
+      <td>31.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 43 columns</p>
+</div></div></div>
+</div>
+<p>最终，数据帧中没有更多缺失的值。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">{}</span><span class="s1"> missing values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">processed</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 0 missing values
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>标准化<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>在接下来的步骤中，需要将数据帧分割成点和手势数据帧。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gesture_points</span> <span class="o">=</span> <span class="n">processed</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;gesture&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">gesture_meaning</span> <span class="o">=</span> <span class="n">processed</span><span class="p">[</span><span class="s1">&#39;gesture&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>接下来，可以规范化数据帧。每一行中的点都是相对于图像的，这在建模时不是很好。因为实际的手可能依赖于图片的不同位置，即使通过相同的手势开始。因此，需要获得手的位置数据，同时消除在图像中的位置差异。另一个问题是图片中手的大小不同。因为当手离摄像机较近或较远时，点会不同，但手势是相同的。</p>
+<p>对数据帧进行规范化可以解决这两个问题。这可以通过下面的公式来实现。</p>
+<div class="math notranslate nohighlight">
+\[\frac{\text{value} - \text{min}}{\text{max} – \text{min}}\]</div>
+<p>数据帧中的每个值都将映射到 0 和 1 之间。所以可以说手的位置改变了因为这些点在1和0之间移动。比例也会改变，因为它们在1到0之间。这意味着现在手的比例和位置都在1和0之间。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gesture_points</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">reshape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+    <span class="nb">min</span> <span class="o">=</span> <span class="n">reshape</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">max</span> <span class="o">=</span> <span class="n">reshape</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">reshape</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="o">-</span><span class="nb">min</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">gesture_points</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalized</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gesture_points</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>32</th>
+      <th>33</th>
+      <th>34</th>
+      <th>35</th>
+      <th>36</th>
+      <th>37</th>
+      <th>38</th>
+      <th>39</th>
+      <th>40</th>
+      <th>41</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.000000</td>
+      <td>1.0</td>
+      <td>0.645161</td>
+      <td>0.877551</td>
+      <td>0.290323</td>
+      <td>0.653061</td>
+      <td>0.129032</td>
+      <td>0.469388</td>
+      <td>0.000000</td>
+      <td>0.346939</td>
+      <td>...</td>
+      <td>0.354839</td>
+      <td>0.510204</td>
+      <td>0.870968</td>
+      <td>0.367347</td>
+      <td>0.580645</td>
+      <td>0.367347</td>
+      <td>0.419355</td>
+      <td>0.428571</td>
+      <td>0.419355</td>
+      <td>0.510204</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.565217</td>
+      <td>1.0</td>
+      <td>0.782609</td>
+      <td>0.741379</td>
+      <td>0.869565</td>
+      <td>0.482759</td>
+      <td>1.000000</td>
+      <td>0.224138</td>
+      <td>0.869565</td>
+      <td>0.086207</td>
+      <td>...</td>
+      <td>0.782609</td>
+      <td>0.172414</td>
+      <td>0.130435</td>
+      <td>0.500000</td>
+      <td>0.217391</td>
+      <td>0.137931</td>
+      <td>0.521739</td>
+      <td>0.068966</td>
+      <td>0.695652</td>
+      <td>0.189655</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.607143</td>
+      <td>1.0</td>
+      <td>0.464286</td>
+      <td>0.819672</td>
+      <td>0.285714</td>
+      <td>0.590164</td>
+      <td>0.857143</td>
+      <td>0.344262</td>
+      <td>1.000000</td>
+      <td>0.213115</td>
+      <td>...</td>
+      <td>0.750000</td>
+      <td>0.049180</td>
+      <td>0.678571</td>
+      <td>0.508197</td>
+      <td>0.750000</td>
+      <td>0.295082</td>
+      <td>0.750000</td>
+      <td>0.147541</td>
+      <td>0.785714</td>
+      <td>0.147541</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 42 columns</p>
+</div></div></div>
+</div>
+<p>在下面的例子中，我们可以看到这些点现在是如何规范化的。这些点被拉伸到frame的边界。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="mi">1100</span>
+<span class="n">copy</span><span class="p">,</span> <span class="n">copy_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">blank</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">blank</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">processed</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;gesture&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> 
+                <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gesture_points</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))):</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">copy_norm</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;gesture&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">copy_norm</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;normalized gesture&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gesture-recognition_37_0.png" src="_images/gesture-recognition_37_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>翻转手势<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<p>正如我们之前看到的，数据集只有右手。这意味着该模型将只能识别右手的手势。为了能够识别左手我们需要把左手的点加起来。一种方法是在图像处理部分翻转图像。但这将使处理时间增加一倍，这并不好。另一种方法是用标准化点来做。因为我们需要在 x 轴上翻转手势我们可以用点的 x 值来翻转列。这可以通过用我们想要翻转的值减去最大值来实现。</p>
+<div class="math notranslate nohighlight">
+\[(1 - \text{value})\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flipped_gesture_points</span> <span class="o">=</span> <span class="n">gesture_points</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">flipped_gesture_points</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[::</span><span class="mi">2</span><span class="p">]:</span>
+    <span class="n">flipped_gesture_points</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">flipped_gesture_points</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">c</span><span class="p">])</span>
+<span class="n">flipped_gesture_points</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>32</th>
+      <th>33</th>
+      <th>34</th>
+      <th>35</th>
+      <th>36</th>
+      <th>37</th>
+      <th>38</th>
+      <th>39</th>
+      <th>40</th>
+      <th>41</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.000000</td>
+      <td>1.0</td>
+      <td>0.354839</td>
+      <td>0.877551</td>
+      <td>0.709677</td>
+      <td>0.653061</td>
+      <td>0.870968</td>
+      <td>0.469388</td>
+      <td>1.000000</td>
+      <td>0.346939</td>
+      <td>...</td>
+      <td>0.645161</td>
+      <td>0.510204</td>
+      <td>0.129032</td>
+      <td>0.367347</td>
+      <td>0.419355</td>
+      <td>0.367347</td>
+      <td>0.580645</td>
+      <td>0.428571</td>
+      <td>0.580645</td>
+      <td>0.510204</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.434783</td>
+      <td>1.0</td>
+      <td>0.217391</td>
+      <td>0.741379</td>
+      <td>0.130435</td>
+      <td>0.482759</td>
+      <td>0.000000</td>
+      <td>0.224138</td>
+      <td>0.130435</td>
+      <td>0.086207</td>
+      <td>...</td>
+      <td>0.217391</td>
+      <td>0.172414</td>
+      <td>0.869565</td>
+      <td>0.500000</td>
+      <td>0.782609</td>
+      <td>0.137931</td>
+      <td>0.478261</td>
+      <td>0.068966</td>
+      <td>0.304348</td>
+      <td>0.189655</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.392857</td>
+      <td>1.0</td>
+      <td>0.535714</td>
+      <td>0.819672</td>
+      <td>0.714286</td>
+      <td>0.590164</td>
+      <td>0.142857</td>
+      <td>0.344262</td>
+      <td>0.000000</td>
+      <td>0.213115</td>
+      <td>...</td>
+      <td>0.250000</td>
+      <td>0.049180</td>
+      <td>0.321429</td>
+      <td>0.508197</td>
+      <td>0.250000</td>
+      <td>0.295082</td>
+      <td>0.250000</td>
+      <td>0.147541</td>
+      <td>0.214286</td>
+      <td>0.147541</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 42 columns</p>
+</div></div></div>
+</div>
+<p>在下面的例子中，我们可以看到两个规范化的手势。左边的图像是原始手势点。右边的图像是翻转的手势点。现在我们有了一个普通的和翻转的手势数据帧。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">copy</span><span class="p">,</span> <span class="n">copy_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">blank</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">blank</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gesture_points</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>  
+                    <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">flipped_gesture_points</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))):</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">copy_flipped</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;gesture&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">copy_flipped</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;flipped gesture&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;flipped gesture&#39;)
+</pre></div>
+</div>
+<img alt="_images/gesture-recognition_41_1.png" src="_images/gesture-recognition_41_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>最终的 dataframe<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<p>最后，我们可以将手势点和翻转手势点相加。在第 43 栏中加上手势的含义。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gestures</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">gesture_points</span><span class="p">,</span> <span class="n">gesture_meaning</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">reverse_gestures</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">flipped_gesture_points</span><span class="p">,</span> <span class="n">gesture_meaning</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">gesture_dataframe</span> <span class="o">=</span> <span class="n">gestures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reverse_gestures</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>现在数据帧已经被处理，我们可以将它保存为CSV文件，这样以后我们就可以导入数据集，而不是再次运行所有内容。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gesture_dataframe</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../dataframes/gesture-points-processed.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gesture_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../dataframes/gesture-points-processed.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>建模<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id12">
+<h3>准备数据<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<p>首先，我们需要准备好数据。为了训练模型，需要一个训练和测试集。训练集用于训练模型，测试集用于验证模型。训练和测试都有一个X和y坐标系。x数据是点数据。y数据是标签数据。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">gesture_dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;gesture&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
+                                                    <span class="n">gesture_dataframe</span><span class="p">[</span><span class="s1">&#39;gesture&#39;</span><span class="p">],</span>
+                                                    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> 
+                                                    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id13">
+<h3>选择算法<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<p>为了选择正确的算法，我们将使用 Sklearn 的这张图表。不同的算法更适合于不同类型的数据和不同的问题。所以，我们将按照这个图表。首先，我们必须检查数据集是否有超过 50 个样本，因为我们有超过 4000 行。它问我们是否在预测一个类别/标签，我们试图预测一个手势的标签/含义，所以这将是一个“是”。然后我们必须检查我们的数据是否有标签。是的，因为最后一列有手势的意思。然后，我们需要检查数据集的样本是否小于100000。最后我们得到了 'LinearSVC' 估计量。</p>
+<p><img alt="estimator chart" src="https://scikit-learn.org/stable/_static/ml_map.png" /></p>
+</div>
+<div class="section" id="id14">
+<h3>训练<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<p>现在可以训练模型。从上面的图表中我们得出结论，linearSVC 最适合这个数据集。因此，可以用训练集来训练模型。然后用测试数据集对模型进行评分。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVC</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="c1">#Training model</span>
+<span class="n">svm_model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">svm_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1">#Calculating elapsed time</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="p">((</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training time: </span><span class="si">{}</span><span class="s1"> minutes and </span><span class="si">{}</span><span class="s1"> seconds&#39;</span>
+<span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">elapsed_time</span><span class="p">),</span> <span class="nb">int</span><span class="p">(((</span><span class="n">elapsed_time</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))))</span>
+    
+<span class="c1">#Calculating score</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Score:&#39;</span><span class="p">,</span><span class="n">svm_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training time: 0 minutes and 0 seconds
+Score: 0.95
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>验证<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
+<p>为了可视化模型的预成形，可以创建一个混淆矩阵。矩阵的每一行代表一个预测值，而每一列是实际值中的实例。</p>
+<p>所有标签的得分都高于 0.9。还有一个手势是模特得1分。这可能意味着这个手势与数据过于匹配。但我认为它不是，因为数据集有很多不同的图像。从这个矩阵可以假设模型能够清楚地分离每个手势。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">plot_confusion_matrix</span>
+
+<span class="c1"># creating confusion matrix</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span>
+                                 <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">,</span>
+                                 <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span>
+                                 <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="c1"># plot the matrix</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gesture-recognition_54_0.png" src="_images/gesture-recognition_54_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h3>测试<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<p>最后，可以用之前没有见过的图像来测试模型。对于这个测试，我们将使用 Mediapipe 而不是 OpenCV。这是因为 Mediapipe 的手模型比使用手姿势模型要快得多。使用这个模型的另一个原因是，它能够在一个图像中识别多个手。用于测试数据位于 <code class="docutils literal notranslate"><span class="pre">test_images/</span></code> 文件夹中。这个文件夹包含 20 张图片，每个手势两个。每个手势都有一个左手和右手的图像来测试模型是否可以预测双手。对于每个图像，一个图形是创建与每个手势标签的置信度。标准越高，模型越确信自己是正确的标签。当然，具有最高置信度的标签将被视为预测的标签。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mediapipe.python.solutions</span> <span class="k">import</span> <span class="n">drawing_utils</span><span class="p">,</span> <span class="n">hands</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+
+<span class="c1"># load the mediapipe hand model</span>
+<span class="n">hand_model</span> <span class="o">=</span> <span class="n">hands</span><span class="o">.</span><span class="n">Hands</span><span class="p">(</span><span class="n">static_image_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root</span> <span class="o">=</span> <span class="s1">&#39;../test_images&#39;</span>
+<span class="c1"># 循环遍历test文件夹中的每个图像</span>
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+    <span class="n">example_im</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">as_posix</span><span class="p">())</span>
+    <span class="c1"># 获得手模型的预测</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">hand_model</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">example_im</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+    <span class="c1"># 在图像上绘制骨架</span>
+    <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">multi_hand_landmarks</span><span class="p">:</span>
+        <span class="n">landmarks</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">multi_hand_landmarks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">drawing_utils</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+            <span class="n">example_im</span><span class="p">,</span> <span class="n">landmarks</span><span class="p">,</span> <span class="n">hands</span><span class="o">.</span><span class="n">HAND_CONNECTIONS</span><span class="p">)</span>
+
+        <span class="c1"># 从预测中得到x和y的值</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">lm</span> <span class="ow">in</span> <span class="n">landmarks</span><span class="o">.</span><span class="n">landmark</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># 标准化点</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+        <span class="nb">min</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">points</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="o">-</span><span class="nb">min</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="c1"># 从手势模型中获得预测</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">svm_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([</span><span class="n">normalized</span><span class="p">])</span>
+
+        <span class="c1"># 获得手势预测和置信度</span>
+        <span class="n">gesture</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+        <span class="c1"># 显示图像并绘制图形</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">example_im</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;predicted value: </span><span class="si">{gesture}</span><span class="s1">; confidence: </span><span class="si">{confidence:.1%}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/gesture-recognition_57_0.png" src="_images/gesture-recognition_57_0.png" />
+<img alt="_images/gesture-recognition_57_1.png" src="_images/gesture-recognition_57_1.png" />
+<img alt="_images/gesture-recognition_57_2.png" src="_images/gesture-recognition_57_2.png" />
+<img alt="_images/gesture-recognition_57_3.png" src="_images/gesture-recognition_57_3.png" />
+<img alt="_images/gesture-recognition_57_4.png" src="_images/gesture-recognition_57_4.png" />
+<img alt="_images/gesture-recognition_57_5.png" src="_images/gesture-recognition_57_5.png" />
+<img alt="_images/gesture-recognition_57_6.png" src="_images/gesture-recognition_57_6.png" />
+<img alt="_images/gesture-recognition_57_7.png" src="_images/gesture-recognition_57_7.png" />
+<img alt="_images/gesture-recognition_57_8.png" src="_images/gesture-recognition_57_8.png" />
+<img alt="_images/gesture-recognition_57_9.png" src="_images/gesture-recognition_57_9.png" />
+<img alt="_images/gesture-recognition_57_10.png" src="_images/gesture-recognition_57_10.png" />
+<img alt="_images/gesture-recognition_57_11.png" src="_images/gesture-recognition_57_11.png" />
+<img alt="_images/gesture-recognition_57_12.png" src="_images/gesture-recognition_57_12.png" />
+<img alt="_images/gesture-recognition_57_13.png" src="_images/gesture-recognition_57_13.png" />
+<img alt="_images/gesture-recognition_57_14.png" src="_images/gesture-recognition_57_14.png" />
+<img alt="_images/gesture-recognition_57_15.png" src="_images/gesture-recognition_57_15.png" />
+<img alt="_images/gesture-recognition_57_16.png" src="_images/gesture-recognition_57_16.png" />
+<img alt="_images/gesture-recognition_57_17.png" src="_images/gesture-recognition_57_17.png" />
+<img alt="_images/gesture-recognition_57_18.png" src="_images/gesture-recognition_57_18.png" />
+<img alt="_images/gesture-recognition_57_19.png" src="_images/gesture-recognition_57_19.png" />
+</div>
+</div>
+<p>这次试验的结果相当成功。所有的测试图像都得到了正确的预测，置信度从未低于 80%。信任度最低的手势是“4”，左手和右手的信任度都在 84% 左右。对于剩下的所有图像，左手和右手之间的置信度是非常相似的。</p>
+</div>
+</div>
+<div class="section" id="id17">
+<h2>导出模型<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h2>
+<p>现在我们已经创建了一个成功的模型，我们可以导出它了。通过 <a class="reference external" href="https://joblib.readthedocs.io/en/latest/">joblib</a> 包，我们可以将模型导出为<code class="docutils literal notranslate"><span class="pre">pickle</span></code>。Pickle 是 Python 对象的序列化和反序列化协议。稍后，我们可以通过使用 <code class="docutils literal notranslate"><span class="pre">joblib</span></code> 包加载模型来再次使用模型。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">joblib</span>
+
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="s1">&#39;../model/gesture_model.pkl&#39;</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;../model/gesture_model.pkl&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "torch"
+        },
+        kernelOptions: {
+            kernelName: "torch",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'torch'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="start.html" title="previous page">基础</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By xinetzone<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
