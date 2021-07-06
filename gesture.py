@@ -7,6 +7,8 @@ from joblib import load
 from mediapipe.python.solutions import drawing_utils, hands
 import pyautogui
 
+pyautogui.FAILSAFE= True
+
 print('GESTURE RECOGNITION')
 print("Press 'q' to quit")
 print("Press 'd' for debug")
@@ -34,7 +36,6 @@ if not _save_dir.exists():
 
 while vc.isOpened():
     ret, frame = vc.read()
-
     # get hands model prediction
     results = hand_model.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
@@ -70,14 +71,17 @@ while vc.isOpened():
                         (0, 255, 255), 1, cv2.LINE_AA)
             gesture_list.append(int(gesture))
             counters = Counter(gesture_list)
-            if len(counters) < 500:
-                if counters[5] % 50 == 0:  # 手势五, 向下滚动
+            if len(gesture_list) < 500:
+                print(counters)
+                if counters[5] % 50 == 7:  # 手势五, 向下滚动
                     # pyautogui.hotkey('win', 'shift', 's')
                     name = f'{save_dir}/screenshot-{n}.png'
-                    im2 = pyautogui.screenshot(name)
+                    im = pyautogui.screenshot(name)
                     n += 1
-                elif counters[4] > 20:  # 手势四, 向上滚动
-                    pyautogui.scroll(2)  # scroll up 10 "clicks"
+                elif gesture == 2:  # 手势二, 向上滚动
+                    pyautogui.scroll(10)  # scroll up 10 "clicks"
+                elif gesture == 1:  # 手势二, 向上滚动
+                    pyautogui.scroll(-10)  # scroll up 10 "clicks"
             else:
                 gesture_list = []
 
@@ -86,8 +90,11 @@ while vc.isOpened():
 
     # debug text
     if debug:
-        cv2.putText(frame, "{}x{}; {}fps".format(*resolution, int(fps)),
-                    (0, 15), cv2.FONT_HERSHEY_DUPLEX,  0.6, (0, 0, 255), 1, cv2.LINE_AA)
+        cv2.putText(frame,
+                    "{}x{}; {}fps".format(*resolution, int(fps)),
+                    (0, 15),
+                    cv2.FONT_HERSHEY_DUPLEX,
+                    0.6, (0, 0, 255), 1, cv2.LINE_AA)
 
     cv2.imshow('frame', frame)
 
