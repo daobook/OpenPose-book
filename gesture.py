@@ -1,8 +1,11 @@
 import cv2
 import time
+from pathlib import Path
+from collections import Counter
 import numpy as np
 from joblib import load
 from mediapipe.python.solutions import drawing_utils, hands
+import pyautogui
 
 print('GESTURE RECOGNITION')
 print("Press 'q' to quit")
@@ -22,6 +25,12 @@ hand_model = hands.Hands(static_image_mode=True,
 # initialize video capture
 vc = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 resolution = (vc.get(3), vc.get(4))
+gesture_list = []
+n = 0
+save_dir = '../screenshots'
+_save_dir = Path(save_dir)
+if not _save_dir.exists():
+    _save_dir.mkdir(exist_ok=True)
 
 while vc.isOpened():
     ret, frame = vc.read()
@@ -59,6 +68,18 @@ while vc.isOpened():
             cv2.putText(frame, "'{}',{:.1%}".format(gesture, confidence),
                         txt_pos.astype(int), cv2.FONT_HERSHEY_DUPLEX,  1,
                         (0, 255, 255), 1, cv2.LINE_AA)
+            gesture_list.append(int(gesture))
+            counters = Counter(gesture_list)
+            if len(counters) < 500:
+                if counters[5] % 50 == 0:  # 手势五, 向下滚动
+                    # pyautogui.hotkey('win', 'shift', 's')
+                    name = f'{save_dir}/screenshot-{n}.png'
+                    im2 = pyautogui.screenshot(name)
+                    n += 1
+                elif counters[4] > 20:  # 手势四, 向上滚动
+                    pyautogui.scroll(2)  # scroll up 10 "clicks"
+            else:
+                gesture_list = []
 
     fps = 1/(time.time()-t)
     t = time.time()
