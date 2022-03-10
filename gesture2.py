@@ -74,38 +74,43 @@ while vc.isOpened():
             counters = Counter(gesture_list)
 
             if len(gesture_list) < 18:
-                print(gesture_list)  
+                print(gesture_list)
                 time.sleep(1.5)
-                if len(gesture_list) > 16:
-                    if 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 0 in gesture_list[-4:]: # 1450
+                if (
+                    len(gesture_list) > 16
+                    and 1 in gesture_list[-16:-12]
+                    and 4 in gesture_list[-12:-8]
+                    and 5 in gesture_list[-8:-4]
+                ):
+                    if 0 in gesture_list[-4:]: # 1450
                         pyautogui.alert('请问医院在哪里？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 4 in gesture_list[-4:]: # 1454
+                    elif 4 in gesture_list[-4:]: # 1454
                         pyautogui.alert('请问最近的超市在哪？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 1 in gesture_list[-4:]: # 1451
+                    elif 1 in gesture_list[-4:]: # 1451
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问警察局在哪？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 2 in gesture_list[-4:]: # 1452
+                    elif 2 in gesture_list[-4:]: # 1452
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问附近有没有餐厅？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 3 in gesture_list[-4:]: # 1453
+                    elif 3 in gesture_list[-4:]: # 1453
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问附近的加油站在哪里？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 5 in gesture_list[-4:]: # 1455
+                    elif 5 in gesture_list[-4:]: # 1455
                         pyautogui.alert('请问最近的火车站在哪？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 6 in gesture_list[-4:]: # 1456
+                    elif 6 in gesture_list[-4:]: # 1456
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问最近的公交车站在哪？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 7 in gesture_list[-4:]: # 1457
+                    elif 7 in gesture_list[-4:]: # 1457
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问市中心往那个方向走？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 8 in gesture_list[-4:]: # 1458
+                    elif 8 in gesture_list[-4:]: # 1458
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问附近的银行怎么走？')
-                    elif 1 in gesture_list[-16:-12] and 4 in gesture_list[-12:-8] and 5 in gesture_list[-8:-4] and 9 in gesture_list[-4:]: # 1459
+                    elif 9 in gesture_list[-4:]: # 1459
                         # pyautogui.confirm('顶级黑客事件')
                         pyautogui.alert('请问最近的药店怎么走？')
 
-                
+
             else:
                 gesture_list = []
 
